@@ -2,7 +2,7 @@ import { createRoot } from 'react-dom/client';
 import AiBotWidget from './AiBotWidget';
 import shadowStyles from './ai-bot.css?inline';
 import type { ExtensionMessage } from '../shared/messages';
-
+// import { extractPageContent } from './extractPageContent';
 function mount() {
   const host = document.createElement('div');
   host.id = 'learning-extensions-root';
@@ -22,6 +22,7 @@ function mount() {
 }
 
 mount();
+// console.log(extractPageContent())
 
 // PopupからのPING(chrome.tabs.sendMessage)にPONGで応答するサンプル。
 chrome.runtime.onMessage.addListener(

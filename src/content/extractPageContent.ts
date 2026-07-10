@@ -21,6 +21,11 @@ import type { PageContent } from '../shared/pageContent';
  * 動くようになってから description / headings を追加していくのがおすすめ。
  */
 export function extractPageContent(): PageContent {
-  // TODO: ここに実装する
-  throw new Error('TODO: extractPageContent を実装してください');
+  const title = document.title;
+  const description = document.querySelector('meta[name="description"]')?.getAttribute('content') ?? undefined;
+  const headings = Array.from(document.querySelectorAll('h1,h2,h3')).map(element => element.textContent?.trim()).filter(text => !!text).slice(0,5);
+  const bodyText = document.body.innerText.slice(0,3000);
+  const url = location.href;
+
+  return { url,title,description,headings,bodyText};
 }

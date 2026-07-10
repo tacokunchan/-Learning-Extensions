@@ -1,0 +1,76 @@
+:root {
+  color-scheme: light dark;
+}
+
+body {
+  margin: 0;
+}
+
+.popup {
+  width: 320px;
+  padding: 16px;
+  font-family:
+    system-ui,
+    -apple-system,
+    'Segoe UI',
+    sans-serif;
+  font-size: 13px;
+  color: #1f2937;
+}
+
+.popup h1 {
+  font-size: 16px;
+  margin: 0 0 12px;
+}
+
+.popup h2 {
+  font-size: 13px;
+  margin: 16px 0 8px;
+  color: #4b5563;
+}
+
+.popup section {
+  margin-bottom: 8px;
+}
+
+.popup button {
+  padding: 6px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  background: #f9fafb;
+  cursor: pointer;
+  margin-right: 8px;
+}
+
+.popup button:hover {
+  background: #f3f4f6;
+}
+
+.popup .hint {
+  color: #6b7280;
+  font-size: 12px;
+}
+
+@media (prefers-color-scheme: dark) {
+  .popup {
+    color: #e5e7eb;
+  }
+
+  .popup h2 {
+    color: #9ca3af;
+  }
+
+  .popup button {
+    background: #374151;
+    border-color: #4b5563;
+    color: #e5e7eb;
+  }
+
+  .popup button:hover {
+    background: #4b5563;
+  }
+
+  .popup .hint {
+    color: #9ca3af;
+  }
+}

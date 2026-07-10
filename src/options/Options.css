@@ -1,0 +1,81 @@
+:root {
+  color-scheme: light dark;
+}
+
+body {
+  margin: 0;
+  background: #f9fafb;
+}
+
+.options {
+  max-width: 480px;
+  margin: 40px auto;
+  padding: 24px 28px;
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+  font-family:
+    system-ui,
+    -apple-system,
+    'Segoe UI',
+    sans-serif;
+  color: #1f2937;
+}
+
+.options h1 {
+  font-size: 18px;
+  margin: 0 0 8px;
+}
+
+.options .hint {
+  color: #6b7280;
+  font-size: 13px;
+  margin: 0 0 20px;
+}
+
+.options .field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+}
+
+.options .field-checkbox {
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+}
+
+.options input[type='text'] {
+  padding: 8px 10px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+.options input[type='checkbox'] {
+  width: 16px;
+  height: 16px;
+}
+
+@media (prefers-color-scheme: dark) {
+  body {
+    background: #111827;
+  }
+
+  .options {
+    background: #1f2937;
+    color: #e5e7eb;
+  }
+
+  .options .hint {
+    color: #9ca3af;
+  }
+
+  .options input[type='text'] {
+    background: #374151;
+    border-color: #4b5563;
+    color: #e5e7eb;
+  }
+}

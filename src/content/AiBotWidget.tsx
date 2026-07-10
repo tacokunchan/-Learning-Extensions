@@ -1,4 +1,6 @@
 import { useStorageValue } from '../shared/storage';
+import { useState } from 'react';
+import { SiteAnalysis } from '../shared/pageContent';
 // TODO: 実装に必要なものをimportしよう
 // - useState ('react')
 // - extractPageContent ('./extractPageContent')
@@ -34,6 +36,11 @@ import { useStorageValue } from '../shared/storage';
  */
 export default function AiBotWidget() {
   const [enabled] = useStorageValue('aiBotEnabled');
+  const [isOpen,setIsOpen] = useState(false);
+  const [status,setStatus] = useState<'idle' | 'loading' | 'done' | 'error'>('idle');
+  const [result,setResult]  = useState<SiteAnalysis | null>(null);
+  const [errorMessage,setErrorMessage] = useState<string | null>(null);
+
 
   // TODO: ここに isOpen / status / result / errorMessage の useState を書く
 

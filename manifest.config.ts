@@ -32,4 +32,9 @@ export default defineManifest({
     },
   ],
   permissions: ['storage', 'tabs'],
+  // TODO(発展): AI_BOT_GUIDE.md Phase 5で、モックから本物のAI APIに差し替えるとき、
+  // fetch先のドメインをここに追加する必要がある(拡張機能がCORSを越えて通信するための許可)。
+  // 例:
+  //   host_permissions: ['https://api.anthropic.com/*'],       // Claude APIの場合
+  //   host_permissions: ['https://api.openai.com/*'],          // OpenAI APIの場合
 });

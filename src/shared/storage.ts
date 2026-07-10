@@ -3,14 +3,13 @@ import { useEffect, useState } from 'react';
 /** chrome.storage.sync に保存する値のスキーマ。キーを追加する場合はこことDEFAULTSを更新する。 */
 export interface StorageSchema {
   counter: number;
-  badgeEnabled: boolean;
-  badgeLabel: string;
+  /** ページ上にAIボットアイコンを表示するかどうか。 */
+  aiBotEnabled: boolean;
 }
 
 export const STORAGE_DEFAULTS: StorageSchema = {
   counter: 0,
-  badgeEnabled: true,
-  badgeLabel: 'Hello from the extension!',
+  aiBotEnabled: true,
 };
 
 export async function getStorageValue<K extends keyof StorageSchema>(

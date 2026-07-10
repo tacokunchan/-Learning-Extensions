@@ -1,6 +1,6 @@
 import { createRoot } from 'react-dom/client';
-import ContentApp from './ContentApp';
-import shadowStyles from './content.css?inline';
+import AiBotWidget from './AiBotWidget';
+import shadowStyles from './ai-bot.css?inline';
 import type { ExtensionMessage } from '../shared/messages';
 
 function mount() {
@@ -18,7 +18,7 @@ function mount() {
   const mountPoint = document.createElement('div');
   shadowRoot.appendChild(mountPoint);
 
-  createRoot(mountPoint).render(<ContentApp />);
+  createRoot(mountPoint).render(<AiBotWidget />);
 }
 
 mount();

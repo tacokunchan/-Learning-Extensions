@@ -51,32 +51,41 @@ npm run build
 ## 動作確認のポイント
 
 - **Popup**: ツールバーの拡張機能アイコンをクリックして開く。カウンターの`+1`ボタンで`chrome.storage`への保存を確認できる。「Ping content script」で現在のタブのcontent scriptと、「Get tab info via background」でbackground経由の`chrome.tabs`取得(`tabs`権限)をそれぞれ確認できる
-- **Options**: Popupの「設定を開く」、または拡張機能の詳細画面から開く。バッジ文言やON/OFFを変更すると、開いている全ページのバッジ表示に即座に反映される(`chrome.storage.onChanged`)
-- **Content Script**: 任意のWebページを開くと、右下にバッジが表示される(Shadow DOMでページのCSSから隔離して描画)
+- **Options**: Popupの「設定を開く」、または拡張機能の詳細画面から開く。AIボットアイコンの表示ON/OFFを変更すると、開いている全ページに即座に反映される(`chrome.storage.onChanged`)
+- **Content Script**: 任意のWebページを開くと、右下にAIボットアイコンが表示される(Shadow DOMでページのCSSから隔離して描画)。クリックするとそのページの分析結果パネルが開く
 - **Background**: `chrome://extensions`の拡張機能詳細から「Service Worker」のリンクをクリックするとDevToolsが開き、`console.log`の出力を確認できる
+
+AIボット機能(ページを分析してどんなサイトかを判定する部分)は、あえて未実装のTODOとして残してあります。実装の進め方は[AI_BOT_GUIDE.md](./AI_BOT_GUIDE.md)を参照してください。
 
 ## ディレクトリ構成
 
 ```
 ├── manifest.config.ts   # defineManifestで型安全にmanifest.jsonを生成する設定
 ├── vite.config.ts        # Vite + CRXJSの設定
+├── AI_BOT_GUIDE.md        # AIボット機能を自分で実装するためのガイド(手順+ヒント)
 ├── public/
 │   └── icons/             # 拡張機能アイコン(プレースホルダーの単色PNG。差し替えてください)
 └── src/
-    ├── background/        # Service Worker。メッセージ受信(PING/GET_TAB_INFO)のサンプル
-    ├── content/            # Content Script。Shadow DOM上にReactでバッジUIを注入
+    ├── background/        # Service Worker
+    │   ├── index.ts         # メッセージ受信(PING/GET_TAB_INFO/ANALYZE_PAGE)の配線
+    │   └── analyzeSite.ts   # サイト分析ロジック(TODO: 自分で実装する)
+    ├── content/            # Content Script。Shadow DOM上にReactでAIボットUIを注入
+    │   ├── AiBotWidget.tsx  # ボットアイコン+結果パネル(TODO: 自分で実装する)
+    │   ├── extractPageContent.ts # ページ情報の抽出ロジック(TODO: 自分で実装する)
+    │   └── main.tsx         # Shadow DOMへのマウント処理
     ├── popup/              # ツールバーアイコンクリックで開くPopup(React)
     ├── options/            # 拡張機能の設定ページ(React)
     └── shared/             # popup/options/content/background共通の型・ユーティリティ
         ├── storage.ts       # chrome.storage.syncの型付きget/set + Reactフック
-        └── messages.ts      # 拡張全体で共有する型付きメッセージ定義+送信ヘルパー
+        ├── messages.ts      # 拡張全体で共有する型付きメッセージ定義+送信ヘルパー
+        └── pageContent.ts   # AIボットが扱うページ情報・分析結果の型
 ```
 
 ## 権限について
 
 - `storage`: Popup/Optionsで設定・カウンターを保存するために使用
 - `tabs`: Backgroundがアクティブタブの情報(URL/タイトル)を取得するサンプルのために使用
-- `content_scripts.matches: ["<all_urls>"]`: 汎用テンプレートとしてすべてのサイトにバッジを注入するため。特定サイトのみで良い場合は`manifest.config.ts`の`matches`を絞り込んでください
+- `content_scripts.matches: ["<all_urls>"]`: 汎用テンプレートとしてすべてのサイトにAIボットアイコンを注入するため。特定サイトのみで良い場合は`manifest.config.ts`の`matches`を絞り込んでください
 
 ## アイコンについて
 

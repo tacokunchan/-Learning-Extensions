@@ -1,0 +1,62 @@
+.ai-bot {
+  position: fixed;
+  right: 16px;
+  bottom: 16px;
+  z-index: 2147483647;
+  font-family:
+    system-ui,
+    -apple-system,
+    'Segoe UI',
+    sans-serif;
+}
+
+.ai-bot__icon {
+  width: 48px;
+  height: 48px;
+  border: none;
+  border-radius: 9999px;
+  background: #4f46e5;
+  color: #fff;
+  font-size: 22px;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+}
+
+.ai-bot__icon:hover {
+  background: #4338ca;
+}
+
+.ai-bot__panel {
+  position: absolute;
+  right: 0;
+  bottom: 60px;
+  width: 260px;
+  padding: 14px 16px;
+  border-radius: 12px;
+  background: #fff;
+  color: #1f2937;
+  font-size: 13px;
+  line-height: 1.6;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+}
+
+.ai-bot__panel h2 {
+  font-size: 13px;
+  margin: 0 0 8px;
+}
+
+.ai-bot__panel .error {
+  color: #dc2626;
+  margin: 0;
+}
+
+@media (prefers-color-scheme: dark) {
+  .ai-bot__panel {
+    background: #1f2937;
+    color: #e5e7eb;
+  }
+}

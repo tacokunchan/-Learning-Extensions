@@ -1,6 +1,8 @@
 import { useStorageValue } from '../shared/storage';
 import { useState } from 'react';
 import { SiteAnalysis } from '../shared/pageContent';
+import { extractPageContent } from './extractPageContent';
+import { sendMessageToBackground } from '../shared/messages';
 // TODO: 実装に必要なものをimportしよう
 // - useState ('react')
 // - extractPageContent ('./extractPageContent')
@@ -46,6 +48,24 @@ export default function AiBotWidget() {
 
   const handleClick = async () => {
     // TODO: 上のヒントに沿って実装する
+    setIsOpen(true);
+    setStatus('loading');
+    try{
+      const pageContent = await extractPageContent();
+      const response = await sendMessageToBackground({type: 'ANALYZE_PAGE', payload: pageContent});
+      if(response.type === 'ANALYSIS_RESULT'){
+        setResult(response.payload);
+        setStatus('done');
+      }else if(response.type === 'ANALYSIS_ERROR'){
+        setErrorMessage(response.payload.message);
+        setStatus('error');
+        return;
+      }
+    }catch(error){
+      setErrorMessage(error instanceof Error ? error.message : '不明なエラーが発生しました');
+      setStatus('error');
+      throw error;
+    }
   };
 
   if (!enabled) return null;
@@ -67,6 +87,21 @@ export default function AiBotWidget() {
           - status === 'done' && result → result.category と result.summary を表示
           - status === 'error' → <p className="error">{errorMessage}</p>
       */}
+      {isOpen && (
+        <div className="ai-bot__panel">
+          {status === 'loading' && <p>分析中...</p>}
+          {status === 'done' && result && (
+            <>
+              <h2>{result.category}</h2>
+              <p>{result.summary}</p>
+            </>
+          )}
+          {status === 'error' && <p className="error">{errorMessage}</p>}
+          <button type="button" onClick={() => setIsOpen(false)}>閉じる</button>
+        </div>
+      )};
+
+
     </div>
   );
 }

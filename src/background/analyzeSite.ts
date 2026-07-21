@@ -30,7 +30,28 @@ import type { PageContent, SiteAnalysis } from '../shared/pageContent';
  *   try/catchでのエラー処理も忘れずに
  */
 export async function analyzeSite(pageContent: PageContent): Promise<SiteAnalysis> {
-  // TODO: ここに実装する(まずはモックでOK)
-  // 動作確認用に一時的にpageContentの中身を投げているだけなので、実装を始めたら書き換えてOK。
+  const categoryKeywords:Record<string,string[]> = {
+    'ニュースサイト':['ニュース','news'],
+    'ECサイト':['カート','価格','ショップ','購入'],
+    '個人ブログ':['blog','ブログ']
+  }
+  await new Promise((resolve) => setTimeout(resolve,3000));
+  const text = `${pageContent.title} ${pageContent.headings.join('')}`.toLowerCase();
+  let category = '不明';
+  if(text.includes('ニュース')||text.includes('news')){
+    category = 'ニュースサイト';
+  }else if(text.includes('カート')||text.includes('価格')||text.includes('ショップ')||text.includes('購入')){
+    category = 'ECサイト'
+  }else if(text.includes('blog')||text.includes('ブログ')){
+    category = '個人ブログ'
+  }
+  // こっちの書き方は数が増えてきたタイミングでの仕様
+  // let category = '不明';
+  // for (const [name, keywords] of Object.entries(categoryKeywords)) {
+  //   if (keywords.some((keyword) => text.includes(keyword))) {
+  //     category = name;
+  //     break; // 最初に見つかったカテゴリで確定させる
+  //   }
+  // }
   throw new Error(`TODO: analyzeSite を実装してください (title: ${pageContent.title})`);
 }

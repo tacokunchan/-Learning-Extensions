@@ -37,4 +37,5 @@ export default defineManifest({
   // 例:
   //   host_permissions: ['https://api.anthropic.com/*'],       // Claude APIの場合
   //   host_permissions: ['https://api.openai.com/*'],          // OpenAI APIの場合
+  host_permissions: ['https://api.anthropic.com/*']
 });

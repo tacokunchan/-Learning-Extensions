@@ -5,11 +5,14 @@ export interface StorageSchema {
   counter: number;
   /** ページ上にAIボットアイコンを表示するかどうか。 */
   aiBotEnabled: boolean;
+  /** Claude APIのAPIキー(Phase 5で使用)。未設定時は空文字。 */
+  apiKey: string;
 }
 
 export const STORAGE_DEFAULTS: StorageSchema = {
   counter: 0,
   aiBotEnabled: true,
+  apiKey: '',
 };
 
 export async function getStorageValue<K extends keyof StorageSchema>(

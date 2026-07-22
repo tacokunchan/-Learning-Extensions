@@ -30,13 +30,18 @@ export default function Options() {
       )}
 
       {/*
-        TODO(発展): AI_BOT_GUIDE.md の Phase 5(本物のAI APIに差し替える)まで進んだら、
-        ここにAPIキーの入力欄を追加しよう。
+        TODO(発展): APIキーの入力欄をここに追加しよう。
+        StorageSchemaへの apiKey: string 追加は済んでいるので、あとはUI側だけでOK。
+
         ヒント:
-        - StorageSchema(src/shared/storage.ts)に apiKey: string を追加し、
-          このコンポーネントで useStorageValue('apiKey') を使って読み書きする
-        - <input type="password" /> を使うと画面上でキーが見えなくなる
-        - background/analyzeSite.ts 側で getStorageValue('apiKey') を使ってキーを取り出す
+        - 上の aiBotEnabled と同じパターンで
+          const [apiKey, setApiKey, apiKeyLoaded] = useStorageValue('apiKey');
+          のように読み書き用のstateを取得する
+        - <label className="field">…</label> の中に
+          <input type="password" value={apiKey} onChange={...} /> を置く
+          (type="password" にすると画面上でキーが伏字になる)
+        - onChange={(event) => setApiKey(event.target.value)} でstorageに保存される
+        - background/analyzeSite.ts 側では getStorageValue('apiKey') でこの値を読み出す
       */}
     </main>
   );

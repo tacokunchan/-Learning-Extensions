@@ -68,7 +68,11 @@ export async function analyzeSite(pageContent: PageContent): Promise<SiteAnalysi
   // 説明: ${pageContent.description ?? '(なし)'}
   // 見出し: ${pageContent.headings.join('\n')}
   // 本文抜粋: ${pageContent.bodyText.slice(0, 2000)}`;
-
+  const prompt = `以下のwebページを分析し、カテゴリと要約を判定してください。
+  タイトル; ${pageContent.title}
+  説明: ${pageContent.description ?? '(なし)'}
+  見出し: ${pageContent.headings.join('\n')}
+  本文抜粋: ${pageContent.bodyText.slice(0,2000)}`;
   // ---------------------------------------------------------------------
   // ステップ3: fetch()でClaude APIを呼び出す
   // ---------------------------------------------------------------------
@@ -112,7 +116,41 @@ export async function analyzeSite(pageContent: PageContent): Promise<SiteAnalysi
   // if (!response.ok) {
   //   throw new Error(`Claude API error: ${response.status}`);
   // }
+  const response = await fetch('https://api.anthropic.com/v1/messages',{
+    method: 'post',
+    headers: {
+      'x-api-key': apikey,
+      'anthropic-version': '2023-06-01',
+      'content-type': 'application/json',
+      'anthropic-dangerous-direct-browser-access': 'true'
+    },
+    body: JSON.stringify({
+      model: 'claude-opus-4-8',
+      max_tokens: 300,
+      output_config: {
+        format: {
+          type: 'json_schema',
+          schema: {
+            type: 'object',
+            properties: {
+              category: { type: 'string' },
+              summary: { type: 'string' },
+            },
+            required: ['category', 'summary'],
+            additionalProperties: false,
+          },
+        },
+      },
+      messages: [{ role: 'user', content: prompt }],
+    })
+  })
+  if(!response.ok){
+    throw new Error(`claude API error: ${response.status}`)
+  }
 
+
+
+  
   // ---------------------------------------------------------------------
   // ステップ4: レスポンスをパースして SiteAnalysis の形にする
   // ---------------------------------------------------------------------
@@ -133,7 +171,14 @@ export async function analyzeSite(pageContent: PageContent): Promise<SiteAnalysi
   // } catch {
   //   throw new Error('AIの返答をJSONとして解析できませんでした。');
   // }
-
+  const data = await response.json();
+  const text = data.content[0].text;
+  try{
+    const result = JSON.parse(text) as SiteAnalysis;
+    return result;
+  } catch{
+    throw new Error('AIの返答をJSONとして解析できませんでした。');
+  }
   // ---------------------------------------------------------------------
   // ステップ5(任意・発展): モックへのフォールバック
   // ---------------------------------------------------------------------
